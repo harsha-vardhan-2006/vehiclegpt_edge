@@ -4,6 +4,7 @@ Natural-language text is NEVER interpolated into SQL. Callers pass typed
 parameters only; every statement uses bound parameters.
 """
 from __future__ import annotations
+import sqlite3
 
 TEMPLATES: dict[str, str] = {
     "signal_range": (
@@ -47,4 +48,6 @@ TEMPLATES: dict[str, str] = {
 
 def run(conn, name: str, params: dict) -> list[dict]:
     sql = TEMPLATES[name]                     # fixed strings only
+    if not isinstance(conn.row_factory, sqlite3.Row):
+        conn.row_factory = sqlite3.Row
     return [dict(r) for r in conn.execute(sql, params)]

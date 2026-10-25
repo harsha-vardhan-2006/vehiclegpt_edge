@@ -90,8 +90,8 @@ def answer_question(conn, question: str, settings: dict) -> Answer:
 def _dataset_end(conn, settings: dict):
     from datetime import datetime
     row = conn.execute("SELECT MAX(timestamp) t FROM vehicle_signals").fetchone()
-    if row and row["t"]:
-        return datetime.strptime(row["t"], "%Y-%m-%d %H:%M:%S")
+    if row and row[0]:
+        return datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S")
     return datetime.strptime(settings["simulation"]["end_time"], "%Y-%m-%d %H:%M:%S")
 
 
