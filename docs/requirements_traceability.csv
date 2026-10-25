@@ -1,0 +1,14 @@
+Requirement,Design Response,Implemented Component,Test,Evidence,Status
+HR-1,High-level system architecture,query_engine/intent_router.py + api/routes.py,test_intent_router.py,Router handles 8 categories: exact lookup, event history, time-range search, trend analysis, comparison, temporal reconstruction, anomaly explanation, missing-data investigation,IMPLEMENTED
+HR-2,Vehicle data collection strategy,simulator/generate_vehicle_data.py,test_storage.py,60-day synthetic dataset generated with scenarios A-F,IN PROGRESS
+HR-3,SLM/LLM selection rationale,llm/local_model.py (optional),test_validator.py,Qwen2.5 0.5B GGUF considered; deterministic mode available,NOT STARTED
+HR-4,Search and retrieval workflow,pipeline.py,test_queries.py,5 official case-study questions answered with deterministic engine,TESTED
+HR-5,Historical vehicle-data storage,storage/database.py,test_storage.py,60 days in SQLite (681.7 MB with 2M+ signal rows),IMPLEMENTED
+HR-6,Edge deployment architecture,ui/app.py concept design,benchmarks/benchmark.py,Reported; no automotive hardware used,NOT STARTED
+HR-7,User interaction design,ui/app.js + style.css,test_api.py,Browser-based dashboard with query input, OVERVIEW, ANSWER, EVIDENCE, CHARTS, IN PROGRESS
+HR-8,Simulation or replay of driving scenarios,simulator/replay.py,test_analytics.py,Replay + synthetic generation verified,TESTED
+HR-9,Offline operation without cloud dependency,api/main.py (localhost only),test_security.py,No network calls in query path,TESTED
+HR-10,~2 GB RAM, ~2 ARM A5X cores target,benchmarks/benchmark.py,Measured on x86 dev PC; RAM report, ESTIMATE
+HR-11,Response time <2s for common queries,benchmarks/benchmark.py,Median 184 ms exact event lookup; p95 latency recorded,TESTED
+HR-12,Searchable history >= several weeks,storage/database.py,test_storage.py,60 days in SQLite; query performance verified,TESTED
+HR-13,Isolation of safety-critical functions from AI,api/main.py,test_security.py,No actuator-write path; explicit boundary enforced,TESTED

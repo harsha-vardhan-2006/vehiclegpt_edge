@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VehicleGPT Edge — local vehicle assistant</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>VehicleGPT Edge</h1>
+    <span class="sub">Evidence-grounded vehicle intelligence — runs fully offline</span>
+  </div>
+  <div class="badges">
+    <span class="badge ok" id="badge-offline">offline</span>
+    <span class="badge sim" id="badge-sim">SYNTHETIC DATA</span>
+    <span class="badge" id="badge-model">model: —</span>
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" data-tab="overview">A · Overview</button>
+  <button class="tab" data-tab="ask">B · Ask VehicleGPT</button>
+  <button class="tab" data-tab="timeline">C · Timeline</button>
+  <button class="tab" data-tab="analytics">D · Analytics</button>
+  <button class="tab" data-tab="simulator">E · Simulator</button>
+  <button class="tab" data-tab="diagnostics">F · Diagnostics</button>
+</nav>
+
+<main>
+  <!-- A. Overview -->
+  <section id="overview" class="panel active">
+    <div class="cards" id="status-cards">loading…</div>
+    <p class="note">Every figure on this page is read from the running system. Targets and
+    measured values are labelled separately — nothing here is a hard-coded indicator.</p>
+  </section>
+
+  <!-- B. Ask -->
+  <section id="ask" class="panel">
+    <div class="askrow">
+      <input id="question" maxlength="400" placeholder="Ask a question about the vehicle…">
+      <button id="ask-btn" class="primary">Ask</button>
+    </div>
+    <div class="chips" id="examples"></div>
+    <div id="answer-box" class="answer hidden">
+      <div class="answer-head">
+        <span class="pill" id="a-category"></span>
+        <span class="pill" id="a-status"></span>
+        <span class="pill" id="a-model"></span>
+        <span class="pill" id="a-time"></span>
+      </div>
+      <pre id="a-text"></pre>
+      <div id="a-limits"></div>
+      <details open>
+        <summary>Evidence records (<span id="a-evcount">0</span>)</summary>
+        <table id="a-evidence"><thead><tr>
+          <th>id</th><th>kind</th><th>reference</th><th>value</th><th>unit</th>
+          <th>time</th><th>maturity</th><th>produced by</th>
+        </tr></thead><tbody></tbody></table>
+      </details>
+      <details>
+        <summary>Validation report</summary>
+        <pre id="a-validation"></pre>
+      </details>
+    </div>
+    <div id="chart" class="chart hidden"><svg id="chart-svg" viewBox="0 0 640 220"
+      preserveAspectRatio="none"></svg><div id="chart-caption" class="note"></div></div>
+  </section>
+
+  <!-- C. Timeline -->
+  <section id="timeline" class="panel">
+    <div class="askrow">
+      <select id="tl-type"><option value="">all event types</option></select>
+      <select id="tl-sev"><option value="">any severity</option>
+        <option>info</option><option>warning</option><option>critical</option></select>
+      <input id="tl-start" placeholder="start YYYY-MM-DD">
+      <input id="tl-end" placeholder="end YYYY-MM-DD">
+      <button id="tl-btn" class="primary">Load</button>
+    </div>
+    <table id="tl-table"><thead><tr><th>timestamp</th><th>type</th><th>severity</th>
+      <th>description</th><th>maturity</th></tr></thead><tbody></tbody></table>
+  </section>
+
+  <!-- D. Analytics -->
+  <section id="analytics" class="panel">
+    <div class="askrow">
+      <select id="an-signal"></select>
+      <input id="an-start" placeholder="start YYYY-MM-DD">
+      <input id="an-end" placeholder="end YYYY-MM-DD">
+      <button id="an-btn" class="primary">Plot</button>
+    </div>
+    <div id="an-chart" class="chart"><svg id="an-svg" viewBox="0 0 640 220"
+      preserveAspectRatio="none"></svg><div id="an-caption" class="note"></div></div>
+  </section>
+
+  <!-- E. Simulator -->
+  <section id="simulator" class="panel">
+    <p class="note">Generates the reproducible synthetic dataset (fixed seed). All rows are
+    stored with <code>data_maturity = simulated</code>.</p>
+    <div class="askrow">
+      <label>days <input id="sim-days" value="60" size="4"></label>
+      <button id="sim-btn" class="primary">Regenerate dataset</button>
+      <span id="sim-out" class="note"></span>
+    </div>
+    <div id="gt-box">
+      <h3>Scenario ground truth (for tests, not shown as answers)</h3>
+      <pre id="gt-pre">loading…</pre>
+    </div>
+  </section>
+
+  <!-- F. Diagnostics -->
+  <section id="diagnostics" class="panel">
+    <div class="cards" id="diag-cards">loading…</div>
+    <h3>Recent queries</h3>
+    <table id="diag-table"><thead><tr><th>time (UTC)</th><th>category</th><th>status</th>
+      <th>ms</th><th>evidence</th><th>model</th><th>validation</th></tr></thead><tbody></tbody></table>
+  </section>
+</main>
+
+<footer>VehicleGPT Edge · local-only · no cloud calls · informational assistant, not a
+vehicle-control system</footer>
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+data/database/*
+!data/database/.gitkeep
+data/demo/*
+!data/demo/.gitkeep
+models/
+*.gguf
+benchmarks/results/*.json
+!benchmarks/results/.gitkeep
+.venv/
+venv/

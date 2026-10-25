@@ -1,0 +1,8 @@
+# VehicleGPT Edge - Python dependencies (dev machine: Python 3.13)
+# All of these were already present in the development environment.
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.6
+pytest>=8.0
+# Optional, only used for offline chart export in benchmarks:
+matplotlib>=3.8

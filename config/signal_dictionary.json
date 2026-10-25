@@ -1,0 +1,27 @@
+{
+  "note": "Configurable: not every vehicle exposes these signals or uses these CAN identifiers. source_mapping values are logical names, not real DBC keys.",
+  "signals": [
+    {"signal_name": "vehicle_speed", "unit": "km/h", "description": "Vehicle road speed", "valid_min": 0, "valid_max": 200, "source_mapping": "can.chassis.speed", "conversion_rules": "raw*0.01"},
+    {"signal_name": "distance_trip", "unit": "km", "description": "Distance travelled in current trip", "valid_min": 0, "valid_max": 500, "source_mapping": "can.chassis.odo_trip", "conversion_rules": "raw*0.001"},
+    {"signal_name": "soc", "unit": "%", "description": "Battery state of charge", "valid_min": 0, "valid_max": 100, "source_mapping": "can.bms.soc", "conversion_rules": "raw*0.1"},
+    {"signal_name": "range_estimate", "unit": "km", "description": "Estimated driving range", "valid_min": 0, "valid_max": 800, "source_mapping": "can.bms.range", "conversion_rules": "raw*0.1"},
+    {"signal_name": "energy_rate", "unit": "kW", "description": "Instantaneous traction power", "valid_min": -120, "valid_max": 250, "source_mapping": "can.mcu.power", "conversion_rules": "raw*0.1"},
+    {"signal_name": "consumption_running", "unit": "Wh/km", "description": "Running average energy consumption", "valid_min": 0, "valid_max": 900, "source_mapping": "can.bms.consumption", "conversion_rules": "raw*0.1"},
+    {"signal_name": "battery_temp", "unit": "C", "description": "Battery pack temperature", "valid_min": -30, "valid_max": 70, "source_mapping": "can.bms.temp_pack", "conversion_rules": "raw*0.1-273.15"},
+    {"signal_name": "motor_temp", "unit": "C", "description": "Electric motor temperature", "valid_min": -30, "valid_max": 150, "source_mapping": "can.mcu.temp", "conversion_rules": "raw*0.1-273.15"},
+    {"signal_name": "inverter_temp", "unit": "C", "description": "Inverter temperature", "valid_min": -30, "valid_max": 120, "source_mapping": "can.mcu.inv_temp", "conversion_rules": "raw*0.1-273.15"},
+    {"signal_name": "ambient_temp", "unit": "C", "description": "Ambient air temperature", "valid_min": -40, "valid_max": 55, "source_mapping": "can.body.ambient", "conversion_rules": "raw*0.1-273.15"},
+    {"signal_name": "cabin_temp", "unit": "C", "description": "Cabin temperature", "valid_min": -30, "valid_max": 60, "source_mapping": "can.hvac.cabin", "conversion_rules": "raw*0.1-273.15"},
+    {"signal_name": "hvac_power", "unit": "kW", "description": "HVAC electrical power", "valid_min": 0, "valid_max": 8, "source_mapping": "can.hvac.power", "conversion_rules": "raw*0.01"},
+    {"signal_name": "tyre_pressure_fl", "unit": "bar", "description": "Tyre pressure front left", "valid_min": 1.2, "valid_max": 4.0, "source_mapping": "can.tps.fl", "conversion_rules": "raw*0.001"},
+    {"signal_name": "tyre_pressure_fr", "unit": "bar", "description": "Tyre pressure front right", "valid_min": 1.2, "valid_max": 4.0, "source_mapping": "can.tps.fr", "conversion_rules": "raw*0.001"},
+    {"signal_name": "tyre_pressure_rl", "unit": "bar", "description": "Tyre pressure rear left", "valid_min": 1.2, "valid_max": 4.0, "source_mapping": "can.tps.rl", "conversion_rules": "raw*0.001"},
+    {"signal_name": "tyre_pressure_rr", "unit": "bar", "description": "Tyre pressure rear right", "valid_min": 1.2, "valid_max": 4.0, "source_mapping": "can.tps.rp", "conversion_rules": "raw*0.001"},
+    {"signal_name": "dc_bus_voltage", "unit": "V", "description": "HV DC bus voltage", "valid_min": 200, "valid_max": 500, "source_mapping": "can.hv.bus_v", "conversion_rules": "raw*0.1"},
+    {"signal_name": "aux_battery_voltage", "unit": "V", "description": "12 V auxiliary battery voltage", "valid_min": 8, "valid_max": 18, "source_mapping": "can.body.v12", "conversion_rules": "raw*0.001"},
+    {"signal_name": "motor_rpm", "unit": "rpm", "description": "Motor speed", "valid_min": 0, "valid_max": 16000, "source_mapping": "can.mcu.rpm", "conversion_rules": "raw*1"},
+    {"signal_name": "regen_energy", "unit": "kWh", "description": "Cumulative recuperated energy per trip", "valid_min": 0, "valid_max": 100, "source_mapping": "can.bms.regen", "conversion_rules": "raw*0.001"},
+    {"signal_name": "odo_vehicle", "unit": "km", "description": "Vehicle odometer", "valid_min": 0, "valid_max": 1000000, "source_mapping": "can.chassis.odo", "conversion_rules": "raw*0.1"},
+    {"signal_name": "charging_power", "unit": "kW", "description": "Charge port power (0 when not charging)", "valid_min": 0, "valid_max": 250, "source_mapping": "can.obc.power", "conversion_rules": "raw*0.1"}
+  ]
+}

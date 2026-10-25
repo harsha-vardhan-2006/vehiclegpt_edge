@@ -1,0 +1,39 @@
+# VehicleGPT Edge configuration
+# Every value here is an engineering setting, not an official requirement.
+
+simulation:
+  random_seed: 20261025          # fixed seed -> reproducible dataset
+  vehicle_id: "DEMO-EV-001"
+  profile: "ev"                  # ev only in this prototype (no ICE/fuel signals)
+  days: 60                       # retention test = 60 days of history
+  trips_per_day: 2
+  end_time: "2026-10-25 18:00:00"  # dataset "now"; "yesterday" = 2026-10-24
+  rates_hz:
+    primary_during_trip: 1.0     # speed, soc, range, energy, temps
+    secondary_during_trip: 0.2   # tyre pressures, 12V, cabin, rpm ...
+    ambient_continuous: 0.0033   # ambient temperature ~ every 5 min, 24/7
+
+storage:
+  db_path: "data/database/vehiclegpt.db"
+  retention_days: 60             # several weeks of searchable history
+  # Raw 10 Hz logging is kept out of the long-term store by design:
+  # hot = full rate (48 h, not persisted here), warm = decimated (60 days).
+
+query:
+  max_input_chars: 400           # bounded NL input
+  default_lookback_days: 14
+  prewarning_window_minutes: 30  # "what happened before X" window
+
+llm:
+  enabled: false                 # deterministic mode is the default
+  mode: "auto"                   # auto | off
+  backend: "llama_server"        # llama_server | ollama | off
+  endpoint: "http://127.0.0.1:8080"
+  model_name: "Qwen2.5-1.5B-Instruct-Q4_K_M.gguf"
+  max_new_tokens: 220
+  timeout_s: 20
+  # Model download is NEVER automatic. See docs/model_setup.md.
+
+api:
+  host: "127.0.0.1"
+  port: 8181
