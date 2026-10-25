@@ -1,0 +1,67 @@
+flowchart LR
+    classDef proc fill:#E8F1FB,stroke:#1F4E79,stroke-width:1px,color:#10243B
+    classDef store fill:#EAF6EC,stroke:#1E7B34,stroke-width:1px,color:#0E3A19
+    classDef ai fill:#FFF4E5,stroke:#B26B00,stroke-width:1px,color:#4A2C00
+    classDef ext fill:#F1F1F4,stroke:#7A7A85,stroke-width:1px,color:#2B2B31
+    classDef safe fill:#FDECEC,stroke:#B3261E,stroke-width:1px,color:#4A0F0C
+
+    subgraph VEH["Vehicle domain (read-only)"]
+        direction TB
+        SIM["Vehicle / simulator"]:::ext
+        CAN["CAN / CAN-FD"]:::ext
+        SIP["SOME/IP services"]:::ext
+        HAL["Android Vehicle HAL"]:::ext
+        QNX["QNX services & logs"]:::ext
+        ADAS["ADAS events / camera meta"]:::ext
+        DIAG["Diagnostic logs (UDS)"]:::ext
+        SAFE["Safety-critical functions — ISOLATED"]:::safe
+    end
+
+    subgraph ING["1 · Ingestion & normalisation"]
+        direction TB
+        ADP["Ingestion adapters (protocol / file / sim)"]:::proc
+        PARS["Parse · units · UTC align"]:::proc
+        DQ["Data quality: range · dup · gaps"]:::proc
+    end
+
+    subgraph STO["2 · Local storage (offline)"]
+        direction TB
+        DB[("Historical store — SQLite: signals · events · sources · metrics · rollups")]:::store
+    end
+
+    subgraph OPS["Cross-cutting (local)"]
+        direction TB
+        CFG["Config · signal dictionary"]:::proc
+        MON["Monitor · audit (latency · RSS)"]:::proc
+    end
+
+    subgraph QRY["3 · Query & retrieval"]
+        direction TB
+        UI["Local UI: ask · charts · timeline"]:::proc
+        QR["Query Router → typed plan"]:::proc
+        FAST["SQL · analytics · event + temporal search"]:::proc
+        EP["Evidence Package (rows · units · provenance)"]:::proc
+    end
+
+    subgraph GEN["4 · Local generation (on-device)"]
+        direction TB
+        LLM["Local SLM/LLM (llama.cpp · GGUF Q4)"]:::ai
+        AV["Answer validator (numbers + citations)"]:::ai
+    end
+
+    SIM --> ADP
+    CAN --> ADP
+    SIP --> ADP
+    HAL --> ADP
+    QNX --> ADP
+    ADAS --> ADP
+    DIAG --> ADP
+    ADP --> PARS --> DQ --> DB
+    UI --> QR --> FAST
+    FAST --> DB
+    FAST --> EP --> LLM --> AV --> UI
+    CFG -.-> QR
+    CFG -.-> LLM
+    DB -.-> MON
+    FAST -.-> MON
+    AV -.-> MON

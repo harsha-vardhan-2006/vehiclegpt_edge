@@ -1,0 +1,8 @@
+flowchart LR
+    A["Vehicle Simulator /<br/>Data Sources"] --> B["Ingestion &amp;<br/>Normalisation"]
+    B --> C[("Local Historical<br/>Database")]
+    C --> D["Query Router"]
+    D --> E["SQL / Analytics /<br/>Event Search"]
+    E --> F["Evidence<br/>Package"]
+    F --> G["Local SLM/LLM"]
+    G --> H["Validated Answer<br/>+ Timeline"]
