@@ -30,7 +30,7 @@ IMPLEMENTED COMPONENTS:
 - Benchmark: latency percentiles, memory measurement, environment recording
 - Security: no shell/eval, no network calls in query path, no actuator-write path
 - UI: responsive browser dashboard with overview, query, timeline, analytics, simulator, diagnostics
-- Beginner setup instructions: README.md (Windows first, then Linux)
+- Beginner setup instructions: README.md (Windows first, then Linux) - FILE EXISTS AT REPO ROOT
 
 NOTES:
 - All data is synthetic and clearly labelled as such

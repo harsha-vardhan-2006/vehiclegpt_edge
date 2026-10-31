@@ -8,6 +8,7 @@ data/demo/*
 models/
 *.gguf
 benchmarks/results/*.json
+benchmarks/results/*.md
 !benchmarks/results/.gitkeep
 .venv/
 venv/

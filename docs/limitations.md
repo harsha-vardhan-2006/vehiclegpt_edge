@@ -4,7 +4,7 @@
 
 - **Benchmark measured on x86 development PC, not ARM target**. Reported latencies and memory numbers are estimates for the 2 GB / 2 A5x constraint; actual embedded performance may vary.
 - **No automotive-grade hardware tested**. Verification on target hardware (`VERIFIED ON TARGET HARDWARE`) is `NO` — this is a development-prototype environment.
-- **SQLite at 60 days / 2M+ rows fits ~681 MB**. On embedded eMMC with slower I/O, query latencies may be higher than measured ~184 ms median for exact event lookups.
+- **SQLite at 60 days / 2M+ rows fits ~681 MB**. On embedded eMMC with slower I/O, query latencies may be higher than measured. Exact event lookup is already sub-millisecond in this prototype, but range/trend queries are more sensitive to I/O.
 - **Optional LLM (Qwen2.5 0.5B GGUF q4_k_m) requires ~500 MB peak**. On 2 GB RAM systems this leaves ~1.5 GB for OS + SQLite + API + UI; model is off by default.
 
 ## Model & Causal Claims
@@ -44,12 +44,13 @@
 - **Raw data size**: 60 signals × 10 Hz × 86,400 s/day × 60 days = 311,040,000 samples.
 - **Per-sample representation** (SQLite row): ~200 bytes (timestamp 16 + signal_name 12 + value 8 + unit 4 + quality_flag 1 + ingestion_timestamp 12 + overhead).
 - **Raw estimate**: 311M × 200 B ≈ 62.2 GB on-disk before compression.
-- **SQLite measured**: 681.7 MB for 2M+ signal rows (60 days). Compression and page-level packing reduce storage ~90× vs. naïve representation.
-- **Compression ratio**: Not measured empirically; labeled as assumption. Actual result depends on value distribution, indexing, and SQLite page layout.
+- **SQLite measured**: 681.7 MB for 2M+ signal rows (60 days). Measured CSV gzip compression on a sampled export is ~14.94×; the larger ~90× reduction versus a naïve per-sample representation is an assumption, not an empirically measured ratio for this dataset.
+- **Compression ratio**: The project does not report a single measured overall path compression ratio for the warm-tier SQLite store. The only measured compression figure is a sampled CSV gzip ratio of ~14.94× from `benchmarks/results/storage_audit.md`.
 - **30-day estimate**: ~340 MB in SQLite (validated by measured 60-day size).
-- **60-day estimate**: ~681 MB in SQLite (measured).
+- **60-day estimate**: ~681 MB in SQLite (measured).## Unresolved personal fields
 
-## unresolved personal fields
+These are required by the submission criteria but were not provided in the workspace.
+Do not invent them here.
 
 - Team name: *[awaiting input]*
 - Member names: *[awaiting input]*

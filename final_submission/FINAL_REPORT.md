@@ -82,7 +82,7 @@ py -m benchmarks.benchmark --reps 20
 
 ```
 py -m pytest -q
-70 passed in 222.06s
+70 passed in 121.41s
 ```
 
 Test categories and results:
@@ -103,20 +103,20 @@ Measured results (x86 development PC, 7926 MB RAM, 8 logical cores, SQLite 681.7
 
 | Operation | Median ms | p95 ms | Reps | Label |
 |---|---|---|---|---|
-| exact_event_lookup | 0.06 | 0.09 | 20 | MEASUREMENT |
-| time_range_search | 10.29 | 14.17 | 20 | MEASUREMENT |
-| trend_calculation | 9.14 | 10.99 | 20 | MEASUREMENT |
-| official_q1_range_reduction | 267.02 | 281.28 | 10 | MEASUREMENT |
-| official_q2_efficiency_drop | 3.24 | 6.34 | 10 | MEASUREMENT |
-| official_q3_adas_events | 1.32 | 1.48 | 10 | MEASUREMENT |
-| official_q4_before_warning | 24.92 | 32.08 | 10 | MEASUREMENT |
-| official_q5_city_vs_highway | 6.22 | 6.84 | 10 | MEASUREMENT |
-| model_free_answer | 267.02 | 281.28 | 10 | MEASUREMENT |
+| exact_event_lookup | 0.07 | 0.13 | 20 | MEASUREMENT |
+| time_range_search | 11.11 | 17.94 | 20 | MEASUREMENT |
+| trend_calculation | 11.03 | 15.29 | 20 | MEASUREMENT |
+| official_q1_range_reduction | 337.74 | 352.63 | 10 | MEASUREMENT |
+| official_q2_efficiency_drop | 3.86 | 4.75 | 10 | MEASUREMENT |
+| official_q3_adas_events | 1.18 | 2.05 | 10 | MEASUREMENT |
+| official_q4_before_warning | 30.5 | 44.18 | 10 | MEASUREMENT |
+| official_q5_city_vs_highway | 7.96 | 12.95 | 10 | MEASUREMENT |
+| model_free_answer | 337.74 | 352.63 | 10 | MEASUREMENT |
 
 All 5 official queries return `retrieval_status: ok`, `validation_status: pass` with evidence count 5-31.
 
 Resource budget (measured, no model):
-- RSS start: 35.7 MB, RSS peak: 42.6 MB, Python allocations peak: 1.1 MB
+- RSS start: 35.8 MB, RSS peak: 42.4 MB, Python allocations peak: 1.1 MB
 - Total without optional LLM: ~300 MB (fits 2 GB budget comfortably)
 - Total with optional Qwen2.5 0.5B GGUF q4_k_m: ~800 MB (still within 2 GB budget)
 
@@ -134,7 +134,7 @@ Resource budget (measured, no model):
 | HR-8 Simulation or replay of driving scenarios | IMPLEMENTED | Scenarios A-F with ground truth, replay capability |
 | HR-9 Offline operation without cloud dependency | IMPLEMENTED | All query path dependencies local; tested with disabled network |
 | HR-10 ~2 GB RAM, ~2 ARM A5X cores | ESTIMATED | 300 MB without model; 800 MB with model; measured on x86 dev PC |
-| HR-11 Response time <2 s for common queries | IMPLEMENTED | Median 0.06-267 ms; all within 2 s; p95 never exceeds 2 s |
+| HR-11 Response time <2 s for common queries | IMPLEMENTED | Median 0.07-337.74 ms; all within 2 s; p95 never exceeds 2 s |
 | HR-12 Searchable history >= several weeks | IMPLEMENTED | 60.42 days in SQLite; queries verified |
 | HR-13 Isolation of safety-critical functions from AI | IMPLEMENTED | No actuator-write path; explicit architecture boundary |
 
@@ -145,15 +145,16 @@ Resource budget (measured, no model):
 - **Verification on target automotive hardware** — Not possible in current environment; labelled `NO - no automotive/ARM target used`
 - **Optional local LLM installation** — Qwen2.5 0.5B GGUF model not downloaded; user must install separately if desired
 - **Full protocol adapters (SOME/IP, Android Vehicle HAL, QNX, Camera)** — Documented interfaces only; not tested in this environment
-- **Beginner README with Windows setup instructions** — Not yet created; will be added
+- **Beginner README with Windows setup instructions** — Created at repo root `README.md`.
+- **Untracked scratch files:** `VehicleGPT_Edge_OneSlide_backup.pptx` and `docs/audit_report.md` are not part of the committed deliverable; keep or remove as needed.
 
 ## 8. Performance Claims: Measured vs. Targets vs. Estimates
 
 | Claim | Status | Value |
 |---|---|---|
-| Response time <2 s for common queries | MEASURED | All 5 official queries median 1.3-267 ms; p95 max 281 ms |
-| Engineering target: fast path <200 ms | TARGET | Measured best: 0.06 ms (exact event lookup) |
-| Engineering target: end-to-end <2000 ms | TARGET | Measured max: 281 ms (q1 range reduction) |
+| Response time <2 s for common queries | MEASURED | All 5 official queries median 1.18-337.74 ms; p95 max 352.63 ms |
+| Engineering target: fast path <200 ms | TARGET | Measured best: 0.07 ms (exact event lookup) |
+| Engineering target: end-to-end <2000 ms | TARGET | Measured max: 352.63 ms (q1 range reduction) |
 | RAM ~2 GB budget | ESTIMATED | 300 MB without LLM; 800 MB with Qwen2.5 0.5B GGUF q4_k_m |
 | Storage 60 days / ~681 MB | MEASURED | Actual SQLite size for 2M+ signal rows, 254 events, 120 trips |
 | History several weeks | MEASURED | 60.42 days verified |
@@ -171,7 +172,7 @@ Resource budget (measured, no model):
 
 ## 10. Personal Details Awaiting Input
 
-The following fields need to be completed for the final submission. These are required by the Teliport Case Study 5 criteria but were not provided in the workspace:
+The following fields need to be completed for the final submission. These are required by the Teliport Case Study 5 criteria but were not provided in the workspace. They were left as placeholders, not invented.
 
 - **Team name**: *[awaiting input]*
 - **Member names**: *[awaiting input]*
